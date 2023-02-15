@@ -56,9 +56,11 @@ class MainApp(QMainWindow, ui):
         header = doc.sections[0].header
 
 
-        ui_hdr_doc_nam = self.get_document_name()
+        # ui_hdr_doc_nam = self.get_document_name()
+        ui_hdr_doc_nam = "my new document for test"
         print(ui_hdr_doc_nam)
-        ui_hdr_s_grd = self.get_security_grade()
+        # ui_hdr_s_grd = self.get_security_grade()
+        ui_hdr_s_grd = "confidential"
         table = header.add_table(rows=1, cols=3, width=Inches(6.0))
         table.style = 'Table Grid'
         table.alignment = WD_TABLE_ALIGNMENT.CENTER
@@ -70,18 +72,12 @@ class MainApp(QMainWindow, ui):
                 cell.width = docx.shared.Inches(2)
         # first cell
         first_cell = table.cell(0, 0)
-        if ui_hdr_doc_nam is None:
-            first_cell.text = "Document Name".upper()
-        else:
-            first_cell.text = ui_hdr_doc_nam
+        first_cell.text = ui_hdr_doc_nam
         first_cell.paragraphs[0].paragraph_format.alignment = WD_ALIGN_PARAGRAPH.CENTER
         first_cell.paragraphs[0].style.font.bold = True
         # second cell
         second_cell = table.cell(0, 1)
-        if ui_hdr_s_grd is None:
-            second_cell.text = "Security Grade".upper()
-        else:
-            second_cell.text = ui_hdr_s_grd
+        second_cell.text = ui_hdr_s_grd
         second_cell.paragraphs[0].paragraph_format.alignment = WD_ALIGN_PARAGRAPH.CENTER
         second_cell.paragraphs[0].style.font.bold = True
         # third cell
@@ -102,11 +98,18 @@ class MainApp(QMainWindow, ui):
         first_cell.vertical_alignment = WD_ALIGN_VERTICAL.CENTER
         second_cell.vertical_alignment = WD_ALIGN_VERTICAL.CENTER
         third_cell.vertical_alignment = WD_ALIGN_VERTICAL.CENTER
+        print("header done")
+
+    def add_paragraph(self,doc):
+        my_paragraph = "Science and technology have become essential aspects of our lives. Technology was a luxury at a point in time, but now it has become a necessity. It is impossible to survive without electricity, television, music systems, mobile phones, internet connections, etc. We start and end our day with technology. So it is indeed difficult to imagine our life without technology, but it should be used with caution. If we become too dependent on technology, it will end up being harmful to us and our health. Overuse of technology can also become self-destructive, so it is important everyone uses technology only when necessary."
+        p1 = doc.add_paragraph(my_paragraph)
+    
 
     def make_new_doc(self):
         doc = docx.Document()
         self.set_pageMargin(doc)
         self.set_header(doc)
+        self.add_paragraph(doc)
         doc.save("example.docx")
 
 
