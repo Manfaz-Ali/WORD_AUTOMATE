@@ -44,12 +44,15 @@ class MainApp(QMainWindow, ui):
         return self.s_grade
 
 
+    def set_pageMargin(self,doc):
+        sections = doc.sections
+        for section in sections:
+            section.top_margin = Inches(0.5)
+            section.bottom_margin = Inches(0.5)
+            section.left_margin = Inches(1.5)
+            section.right_margin = Inches(0.5)
 
-
-
-
-    def make_new_doc(self):
-        doc = docx.Document()
+    def set_header(self,doc):
         header = doc.sections[0].header
 
 
@@ -99,6 +102,11 @@ class MainApp(QMainWindow, ui):
         first_cell.vertical_alignment = WD_ALIGN_VERTICAL.CENTER
         second_cell.vertical_alignment = WD_ALIGN_VERTICAL.CENTER
         third_cell.vertical_alignment = WD_ALIGN_VERTICAL.CENTER
+
+    def make_new_doc(self):
+        doc = docx.Document()
+        self.set_pageMargin(doc)
+        self.set_header(doc)
         doc.save("example.docx")
 
 
