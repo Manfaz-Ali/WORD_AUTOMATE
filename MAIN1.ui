@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1301</width>
-    <height>919</height>
+    <width>1194</width>
+    <height>803</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>2</number>
     </property>
     <widget class="QWidget" name="tab1">
      <attribute name="title">
@@ -167,6 +167,42 @@
      <attribute name="title">
       <string>ADD TABLES</string>
      </attribute>
+     <widget class="QPushButton" name="pushButton_browes_csv">
+      <property name="geometry">
+       <rect>
+        <x>480</x>
+        <y>170</y>
+        <width>93</width>
+        <height>28</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>BROWES</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_upload_csv">
+      <property name="geometry">
+       <rect>
+        <x>640</x>
+        <y>170</y>
+        <width>161</width>
+        <height>28</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>UPLOAD TO DOCUMENT</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="file_path_textedit">
+      <property name="geometry">
+       <rect>
+        <x>390</x>
+        <y>70</y>
+        <width>531</width>
+        <height>81</height>
+       </rect>
+      </property>
+     </widget>
     </widget>
     <widget class="QWidget" name="tab4">
      <attribute name="title">
@@ -195,7 +231,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1301</width>
+     <width>1194</width>
      <height>26</height>
     </rect>
    </property>

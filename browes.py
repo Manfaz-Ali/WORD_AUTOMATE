@@ -7,7 +7,7 @@ class MyWindow(QMainWindow):
         # Load the UI file
         loadUi('my_ui_file.ui', self)
         # Connect the "Browse" button to the browse_file function
-        self.browse_button.clicked.connect(self.browse_file)
+        self.pushButton_browes_csv.clicked.connect(self.browse_file)
     
     def browse_file(self):
         # Open the file browsing dialog

@@ -32,13 +32,17 @@ class MainApp(QMainWindow, ui):
     def button_actions(self):
         self.pushButton_paragraph.clicked.connect(self.my_functions_group)
         # Connect the button to a function to perform some action
-        self.pushButton.clicked.connect(self.button_clicked)
+        self.pushButton.clicked.connect(self.make_new_doc)
         self.radioButton1.clicked.connect(self.radio_button_clicked)
         self.radioButton2.clicked.connect(self.radio_button_clicked)
         self.radioButton3.clicked.connect(self.radio_button_clicked)
         self.radioButton4.clicked.connect(self.radio_button_clicked)
         self.radioButton5.clicked.connect(self.radio_button_clicked)
         
+        
+
+    
+
 
     def my_functions_group(self):
         #self.get_security_grade()
@@ -284,21 +288,40 @@ class MainApp(QMainWindow, ui):
         if check == 1:
             new_paragraph = "Science and technology have become essential aspects of our lives. Technology was a luxury at a point in time, but now it has become a necessity. It is impossible to survive without electricity, television, music systems, mobile phones, internet connections, etc. We start and end our day with technology. So it is indeed difficult to imagine our life without technology, but it should be used with caution. If we become too dependent on technology, it will end up being harmful to us and our health. Overuse of technology can also become self-destructive, so it is important everyone uses technology only when necessary."
             new_paragraph = '\n\n\t' + new_paragraph + '\n\n'
+            doc.add_paragraph(new_paragraph).style.font.bold = False
+            style = doc.styles['Normal']
+            font = style.font
+            font.name = 'Arial'
+            font.size = Pt(12)
+            
         elif check==2:
+            paragraph = doc.add_paragraph()
+            paragraph.add_run('\n\n')
+            paragraph.add_run('•\t')
+
+            paragraph.add_run("Science and technology have become essential aspects of our lives. Technology was a luxury at a point in time, but now it has become a necessity. It is impossible to survive without electricity, television, music systems, mobile phones, internet connections, etc. We start and end our day with technology. So it is indeed difficult to imagine our life without technology, but it should be used with caution. If we become too dependent on technology, it will end up being harmful to us and our health. Overuse of technology can also become self-destructive, so it is important everyone uses technology only when necessary.")
+            paragraph.add_run('\n\n')
+
+        elif check==3:
+            dparagraph = doc.add_paragraph()
+            dparagraph.add_run('\n')
+            paragraph = doc.add_paragraph()
+            paragraph.add_run('\t')
+            paragraph.add_run("Science and technology have become essential aspects of our lives. Technology was a luxury at a point in time, but now it has become a necessity. It is impossible to survive without electricity, television, music systems, mobile phones, internet connections, etc. We start and end our day with technology. So it is indeed difficult to imagine our life without technology, but it should be used with caution. If we become too dependent on technology, it will end up being harmful to us and our health. Overuse of technology can also become self-destructive, so it is important everyone uses technology only when necessary.")
+            paragraph.style = 'List Number'
+            
 
 
 
-        doc.add_paragraph(new_paragraph).style.font.bold = False
-        style = doc.styles['Normal']
-        font = style.font
-        font.name = 'Arial'
-        font.size = Pt(12)
-        
-    
+
     def set_cell_font(self,cell,size):
         cell.paragraphs[0].runs[0].font.size = Pt(size)
 
-    def add_table(self,doc):
+
+
+
+    def add_table1(self,doc):
+        
         data = pd.read_csv("data.csv")
         num_rows, num_cols = data.shape
         table = doc.add_table(rows=num_rows+1, cols=num_cols)
@@ -325,7 +348,7 @@ class MainApp(QMainWindow, ui):
                     # Set the font size and bold the text in the first column
                     cell.paragraphs[0].runs[0].font.size = Pt(12)
                     cell.paragraphs[0].runs[0].bold = True
-
+        self.file_path_textedit.setText("Job Done")
 
     
 
@@ -335,7 +358,7 @@ class MainApp(QMainWindow, ui):
         self.set_header(doc)
         self.add_paragraph(doc)
         self.set_footer(doc)
-        self.add_table(doc)
+        self.add_table1(doc)
 
         doc.save("example.docx")
 
