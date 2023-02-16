@@ -12,7 +12,8 @@ from docx.enum.section import WD_SECTION
 from docx.oxml import OxmlElement
 from docx.oxml.ns import qn
 import pandas as pd
-ui, _ = loadUiType("WORD.ui")
+from docx.enum.style import WD_STYLE_TYPE
+ui, _ = loadUiType("MAIN1.ui")
 
 
 
@@ -27,13 +28,45 @@ class MainApp(QMainWindow, ui):
         self.setupUi(self)
         self.button_actions()
 
+    
     def button_actions(self):
-        self.pushButton_HeaderSubmit.clicked.connect(self.my_functions_group)
+        self.pushButton_paragraph.clicked.connect(self.my_functions_group)
+        # Connect the button to a function to perform some action
+        self.pushButton.clicked.connect(self.button_clicked)
+        self.radioButton1.clicked.connect(self.radio_button_clicked)
+        self.radioButton2.clicked.connect(self.radio_button_clicked)
+        self.radioButton3.clicked.connect(self.radio_button_clicked)
+        self.radioButton4.clicked.connect(self.radio_button_clicked)
+        self.radioButton5.clicked.connect(self.radio_button_clicked)
+        
 
     def my_functions_group(self):
-        self.get_security_grade()
-        self.get_document_name()
+        #self.get_security_grade()
+        #self.get_document_name()
         self.make_new_doc()
+
+    def radio_button_clicked(self):
+        
+        if self.radioButton1.isChecked():
+            return 1
+        elif self.radioButton2.isChecked():
+            return 2
+        elif self.radioButton3.isChecked():
+            return 3
+        elif self.radioButton4.isChecked():
+            return 4
+        else:
+            return 5
+
+    
+    
+    
+    
+
+    def button_clicked(self):
+        # Perform some action when the button is clicked
+        print("Button clicked!")
+
 
 
     def get_document_name(self):
@@ -247,10 +280,11 @@ class MainApp(QMainWindow, ui):
 
 
     def add_paragraph(self,doc):
-        new_paragraph = "Science and technology have become essential aspects of our lives. Technology was a luxury at a point in time, but now it has become a necessity. It is impossible to survive without electricity, television, music systems, mobile phones, internet connections, etc. We start and end our day with technology. So it is indeed difficult to imagine our life without technology, but it should be used with caution. If we become too dependent on technology, it will end up being harmful to us and our health. Overuse of technology can also become self-destructive, so it is important everyone uses technology only when necessary."
-
-        # Add two line breaks before and after the new paragraph
-        new_paragraph = '\n\n\t' + new_paragraph + '\n\n'
+        check = self.radio_button_clicked()
+        if check == 1:
+            new_paragraph = "Science and technology have become essential aspects of our lives. Technology was a luxury at a point in time, but now it has become a necessity. It is impossible to survive without electricity, television, music systems, mobile phones, internet connections, etc. We start and end our day with technology. So it is indeed difficult to imagine our life without technology, but it should be used with caution. If we become too dependent on technology, it will end up being harmful to us and our health. Overuse of technology can also become self-destructive, so it is important everyone uses technology only when necessary."
+            new_paragraph = '\n\n\t' + new_paragraph + '\n\n'
+        elif check==2:
 
 
 
