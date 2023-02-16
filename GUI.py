@@ -65,7 +65,7 @@ class MainApp(QMainWindow, ui):
         print(ui_hdr_doc_nam)
         # ui_hdr_s_grd = self.get_security_grade()
         ui_hdr_s_grd = "confidential".upper()
-        table = header.add_table(rows=1, cols=3, width=Inches(6.0))
+        table = header.add_table(rows=1, cols=3, width=Inches(8.01))
         table.style = 'Table Grid'
         table.alignment = WD_TABLE_ALIGNMENT.CENTER
         # Resize the table to fit the header
@@ -73,15 +73,15 @@ class MainApp(QMainWindow, ui):
         #--------
         for row in table.rows:
             for cell in row.cells:
-                cell.width = docx.shared.Inches(2)
+                cell.width = docx.shared.Inches(2.67)
         # first cell
         first_cell = table.cell(0, 0)
         first_cell.text = ui_hdr_doc_nam
         
         first_cell.paragraphs[0].paragraph_format.alignment = WD_ALIGN_PARAGRAPH.CENTER
-        first_cell.paragraphs[0].style.font.bold = True
+        first_cell.paragraphs[0].style.font.bold = False
         first_cell.vertical_alignment = WD_ALIGN_VERTICAL.CENTER
-        self.set_cell_font(first_cell,14)
+        self.set_cell_font(first_cell,12)
         
         
         
@@ -90,22 +90,22 @@ class MainApp(QMainWindow, ui):
         second_cell.text = ui_hdr_s_grd
         second_cell.paragraphs[0].paragraph_format.alignment = WD_ALIGN_PARAGRAPH.CENTER
         second_cell.vertical_alignment = WD_ALIGN_VERTICAL.CENTER
-        second_cell.paragraphs[0].style.font.bold = True
-        self.set_cell_font(second_cell,14)
+        second_cell.paragraphs[0].style.font.bold = False
+        self.set_cell_font(second_cell,12)
         # third cell
         third_cell = table.cell(0, 2)
         run = third_cell.paragraphs[0].add_run()
         picture = run.add_picture("pic.jpg")
-        picture.width = docx.shared.Inches(1)
-        picture.height = docx.shared.Inches(0.5)
+        picture.width = docx.shared.Inches(0.5)
+        picture.height = docx.shared.Inches(0.25)
         third_cell.paragraphs[0].paragraph_format.alignment = WD_ALIGN_PARAGRAPH.CENTER
         third_cell.vertical_alignment = WD_ALIGN_VERTICAL.CENTER
 
         # header from top
-        doc.sections[0].header_distance = Inches(0.83)
-        # header row height
+        doc.sections[0].header_distance = Inches(0.5)
+        #header row height
         for row in table.rows:
-            row.height = Inches(1)
+            row.height = Inches(0.5)
         
         
         
@@ -118,26 +118,70 @@ class MainApp(QMainWindow, ui):
         footer = section.footer
 
         # Create a table with one row and three columns
-        table = footer.add_table(rows=1, cols=3, width=Inches(6))
+        table = footer.add_table(rows=2, cols=4, width=Inches(8))
         table.alignment = WD_TABLE_ALIGNMENT.CENTER
         table.style = 'Table Grid'
         # Add content to the cells
         cell1 = table.cell(0, 0)
-        cell1.text = 'First cell'
-        cell1.paragraphs[0].runs[0].bold = True
+        cell1.text = 'Document No'
+        cell1.paragraphs[0].runs[0].bold = False
         cell1.paragraphs[0].alignment = WD_ALIGN_PARAGRAPH.CENTER
         cell1.vertical_alignment = WD_ALIGN_VERTICAL.CENTER
-        cell1.width = Inches(2)
-        self.set_cell_font(cell1,14)
+        cell1.width = Inches(2.5)
+        self.set_cell_font(cell1,12)
+
         cell2 = table.cell(0, 1)
-        cell2.text = 'Second cell'
-        cell2.paragraphs[0].runs[0].bold = True
+        cell2.text = 'Rev No'
+        cell2.paragraphs[0].runs[0].bold = False
         cell2.paragraphs[0].alignment = WD_ALIGN_PARAGRAPH.CENTER
         cell2.vertical_alignment = WD_ALIGN_VERTICAL.CENTER
-        cell2.width = Inches(2)
-        self.set_cell_font(cell2,14)
-        cell3 = table.cell(0, 2)
+        cell2.width = Inches(1.5)
+        self.set_cell_font(cell2,12)
 
+        cell3 = table.cell(0, 2)
+        cell3.text = 'Date'
+        cell3.paragraphs[0].runs[0].bold = False
+        cell3.paragraphs[0].alignment = WD_ALIGN_PARAGRAPH.CENTER
+        cell3.vertical_alignment = WD_ALIGN_VERTICAL.CENTER
+        cell3.width = Inches(2)
+        self.set_cell_font(cell3, 12)
+
+        cell4 = table.cell(0, 3)
+        cell4.text = 'Page'
+        cell4.paragraphs[0].runs[0].bold = False
+        cell4.paragraphs[0].alignment = WD_ALIGN_PARAGRAPH.CENTER
+        cell4.vertical_alignment = WD_ALIGN_VERTICAL.CENTER
+        cell4.width = Inches(2.5)
+        self.set_cell_font(cell4, 12)
+
+        cell5 = table.cell(1, 0)
+        doc_ref = 'dfg/opt/1-fgt-7-987'.upper()
+        cell5.text = doc_ref
+        cell5.paragraphs[0].runs[0].bold = False
+        cell5.paragraphs[0].alignment = WD_ALIGN_PARAGRAPH.CENTER
+        cell5.vertical_alignment = WD_ALIGN_VERTICAL.CENTER
+        cell5.width = Inches(2)
+        self.set_cell_font(cell5, 12)
+
+        cell6 = table.cell(1, 1)
+        doc_rev = '0'
+        cell6.text = doc_rev
+        cell6.paragraphs[0].runs[0].bold = False
+        cell6.paragraphs[0].alignment = WD_ALIGN_PARAGRAPH.CENTER
+        cell6.vertical_alignment = WD_ALIGN_VERTICAL.CENTER
+        cell6.width = Inches(1.5)
+        self.set_cell_font(cell6, 12)
+
+        cell7 = table.cell(1, 2)
+        doc_date = '25-01-2023'.upper()
+        cell7.text = doc_date
+        cell7.paragraphs[0].runs[0].bold = False
+        cell7.paragraphs[0].alignment = WD_ALIGN_PARAGRAPH.CENTER
+        cell7.vertical_alignment = WD_ALIGN_VERTICAL.CENTER
+        cell7.width = Inches(2)
+        self.set_cell_font(cell7, 12)
+
+        cell8 = table.cell(1, 3)
         # Add a run to the third cell to display the page numbers
         # run = cell3.paragraphs[0].add_run()
         # run.text = 'Page '
@@ -159,25 +203,27 @@ class MainApp(QMainWindow, ui):
         # font = run.font
         # font.bold = True
         # font.size = Pt(14)
-        run = cell3.paragraphs[0].add_run()
+        run = cell8.paragraphs[0].add_run()
         field = OxmlElement('w:fldSimple')
         field.set(qn('w:instr'), 'PAGE')
         run._r.append(field)
-        run.add_text('/')
+        run.add_text(' of ')
         field = OxmlElement('w:fldSimple')
         field.set(qn('w:instr'), 'NUMPAGES')
         run._r.append(field)
-        run.font.bold = True
-        run.font.size = Pt(14)
+        run.font.bold = False
+        run.font.size = Pt(12)
+        cell8.paragraphs[0].alignment = WD_ALIGN_PARAGRAPH.CENTER
+        cell8.vertical_alignment = WD_ALIGN_VERTICAL.CENTER
+        self.set_cell_font(cell8,12)
 
-        cell3.paragraphs[0].alignment = WD_ALIGN_PARAGRAPH.CENTER
-        cell3.vertical_alignment = WD_ALIGN_VERTICAL.CENTER
-        self.set_cell_font(cell3,14)
+
+
         paragraph = footer.add_paragraph()
         p = "confidential".upper()
         footer_run = paragraph.add_run(p)
-        footer_run.bold = True
-        footer_run.font.size = Pt(16)
+        footer_run.bold = False
+        footer_run.font.size = Pt(12)
     
         paragraph.alignment = WD_ALIGN_PARAGRAPH.CENTER
         paragraph_format = paragraph.paragraph_format
@@ -185,14 +231,14 @@ class MainApp(QMainWindow, ui):
         paragraph_format.space_after = Inches(0.2)
 
         # Set the row height to 1 inch
-        row = table.rows[0]
-        row.height = Inches(1)
+        # row = table.rows[0]
+        # row.height = Inches(0.5)
 
         # header from top
-        doc.sections[0].footer_distance = Inches(0.83)
-        # header row height
+        doc.sections[0].footer_distance = Inches(0.5)
+        # footer row height
         for row in table.rows:
-            row.height = Inches(1)
+            row.height = Inches(0.5)
         
         
         
@@ -201,13 +247,18 @@ class MainApp(QMainWindow, ui):
 
 
     def add_paragraph(self,doc):
-        my_paragraph = "Science and technology have become essential aspects of our lives. Technology was a luxury at a point in time, but now it has become a necessity. It is impossible to survive without electricity, television, music systems, mobile phones, internet connections, etc. We start and end our day with technology. So it is indeed difficult to imagine our life without technology, but it should be used with caution. If we become too dependent on technology, it will end up being harmful to us and our health. Overuse of technology can also become self-destructive, so it is important everyone uses technology only when necessary."
-        doc.add_paragraph(my_paragraph).style.font.bold = False
-        
+        new_paragraph = "Science and technology have become essential aspects of our lives. Technology was a luxury at a point in time, but now it has become a necessity. It is impossible to survive without electricity, television, music systems, mobile phones, internet connections, etc. We start and end our day with technology. So it is indeed difficult to imagine our life without technology, but it should be used with caution. If we become too dependent on technology, it will end up being harmful to us and our health. Overuse of technology can also become self-destructive, so it is important everyone uses technology only when necessary."
+
+        # Add two line breaks before and after the new paragraph
+        new_paragraph = '\n\n\t' + new_paragraph + '\n\n'
+
+
+
+        doc.add_paragraph(new_paragraph).style.font.bold = False
         style = doc.styles['Normal']
         font = style.font
         font.name = 'Arial'
-        font.size = Pt(10)
+        font.size = Pt(12)
         
     
     def set_cell_font(self,cell,size):
@@ -238,7 +289,7 @@ class MainApp(QMainWindow, ui):
                 cell.text = value
                 if j == 0:
                     # Set the font size and bold the text in the first column
-                    cell.paragraphs[0].runs[0].font.size = Inches(0.2)
+                    cell.paragraphs[0].runs[0].font.size = Pt(12)
                     cell.paragraphs[0].runs[0].bold = True
 
 
