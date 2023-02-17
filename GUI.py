@@ -26,37 +26,41 @@ class MainApp(QMainWindow, ui):
         self.doc_name = None
         self.s_grade = None
         self.setupUi(self)
+        self.doc = docx.Document()
+        self.set_pageMargin(self.doc)
         self.button_actions()
 
     
     def button_actions(self):
-        self.pushButton_paragraph.clicked.connect(self.my_functions_group)
-        # Connect the button to a function to perform some action
-        self.pushButton.clicked.connect(self.make_new_doc)
         self.radioButton1.clicked.connect(self.radio_button_clicked)
-        self.radioButton2.clicked.connect(self.radio_button_clicked)
         self.radioButton3.clicked.connect(self.radio_button_clicked)
         self.radioButton4.clicked.connect(self.radio_button_clicked)
         self.radioButton5.clicked.connect(self.radio_button_clicked)
-        print(" ")
+        
+        #-----------------------------------------------------------
+        self.pushButton_Save.clicked.connect(self.save_doc)
+        #self.pushButton_SGrade.clicked.connect(self.get_security_grade)
+        #self.pushButton_DocName.clicked.connect(self.get_document_name)
+        self.pushButton_Header.clicked.connect(self.set_header)
+        self.pushButton_Footer.clicked.connect(self.set_footer)
+        self.pushButton_Table.clicked.connect(self.add_table1)
+        self.pushButton_PGraph.clicked.connect(self.add_paragraph)
+
         
         
         
+
+    def save_doc(self):
+        doc = self.doc
+        doc.save("example.docx")
+
 
     
-
-
-    def my_functions_group(self):
-        #self.get_security_grade()
-        #self.get_document_name()
-        self.make_new_doc()
 
     def radio_button_clicked(self):
         
         if self.radioButton1.isChecked():
             return 1
-        elif self.radioButton2.isChecked():
-            return 2
         elif self.radioButton3.isChecked():
             return 3
         elif self.radioButton4.isChecked():
@@ -69,10 +73,7 @@ class MainApp(QMainWindow, ui):
     
     
 
-    def button_clicked(self):
-        # Perform some action when the button is clicked
-        print("Button clicked!")
-
+    
 
 
     def get_document_name(self):
@@ -221,27 +222,6 @@ class MainApp(QMainWindow, ui):
         self.set_cell_font(cell7, 12)
 
         cell8 = table.cell(1, 3)
-        # Add a run to the third cell to display the page numbers
-        # run = cell3.paragraphs[0].add_run()
-        # run.text = 'Page '
-        # field = OxmlElement('w:fldSimple')
-        # field.set(qn('w:instr'), 'PAGE')
-        # run._r.append(field)
-        # run.add_text(' of ')
-        # field = OxmlElement('w:fldSimple')
-        # field.set(qn('w:instr'), 'NUMPAGES')
-        # run._r.append(field)
-        # run = cell3.paragraphs[0].add_run()
-        # field = OxmlElement('w:fldSimple')
-        # field.set(qn('w:instr'), 'PAGE')
-        # run._r.append(field)
-        # run.add_text('/')
-        # field = OxmlElement('w:fldSimple')
-        # field.set(qn('w:instr'), 'NUMPAGES')
-        # run._r.append(field)
-        # font = run.font
-        # font.bold = True
-        # font.size = Pt(14)
         run = cell8.paragraphs[0].add_run()
         field = OxmlElement('w:fldSimple')
         field.set(qn('w:instr'), 'PAGE')
@@ -256,37 +236,27 @@ class MainApp(QMainWindow, ui):
         cell8.vertical_alignment = WD_ALIGN_VERTICAL.CENTER
         self.set_cell_font(cell8,12)
 
-
-
         paragraph = footer.add_paragraph()
         p = "confidential".upper()
         footer_run = paragraph.add_run(p)
         footer_run.bold = False
         footer_run.font.size = Pt(12)
-    
         paragraph.alignment = WD_ALIGN_PARAGRAPH.CENTER
         paragraph_format = paragraph.paragraph_format
         paragraph_format.space_before = Inches(0.2)
         paragraph_format.space_after = Inches(0.2)
-
-        # Set the row height to 1 inch
-        # row = table.rows[0]
-        # row.height = Inches(0.5)
-
         # header from top
         doc.sections[0].footer_distance = Inches(0.5)
         # footer row height
         for row in table.rows:
             row.height = Inches(0.5)
-        
-        
-        
-        
         print("footer done")
 
 
-    def add_paragraph(self,doc):
+    def add_paragraph(self):
+        doc = self.doc
         check = self.radio_button_clicked()
+
         if check == 1:
             new_paragraph = "Science and technology have become essential aspects of our lives. Technology was a luxury at a point in time, but now it has become a necessity. It is impossible to survive without electricity, television, music systems, mobile phones, internet connections, etc. We start and end our day with technology. So it is indeed difficult to imagine our life without technology, but it should be used with caution. If we become too dependent on technology, it will end up being harmful to us and our health. Overuse of technology can also become self-destructive, so it is important everyone uses technology only when necessary."
             new_paragraph = '\n\n\t' + new_paragraph + '\n\n'
@@ -295,15 +265,6 @@ class MainApp(QMainWindow, ui):
             font = style.font
             font.name = 'Arial'
             font.size = Pt(12)
-            
-        elif check==2:
-            paragraph = doc.add_paragraph()
-            paragraph.add_run('\n\n')
-            paragraph.add_run('•\t')
-
-            paragraph.add_run("Science and technology have become essential aspects of our lives. Technology was a luxury at a point in time, but now it has become a necessity. It is impossible to survive without electricity, television, music systems, mobile phones, internet connections, etc. We start and end our day with technology. So it is indeed difficult to imagine our life without technology, but it should be used with caution. If we become too dependent on technology, it will end up being harmful to us and our health. Overuse of technology can also become self-destructive, so it is important everyone uses technology only when necessary.")
-            paragraph.add_run('\n\n')
-
         elif check==3:
             dparagraph = doc.add_paragraph()
             dparagraph.add_run('\n')
@@ -311,9 +272,13 @@ class MainApp(QMainWindow, ui):
             paragraph.add_run('\t')
             paragraph.add_run("Science and technology have become essential aspects of our lives. Technology was a luxury at a point in time, but now it has become a necessity. It is impossible to survive without electricity, television, music systems, mobile phones, internet connections, etc. We start and end our day with technology. So it is indeed difficult to imagine our life without technology, but it should be used with caution. If we become too dependent on technology, it will end up being harmful to us and our health. Overuse of technology can also become self-destructive, so it is important everyone uses technology only when necessary.")
             paragraph.style = 'List Number'
+            style = doc.styles['Normal']
+            font = style.font
+            font.name = 'Arial'
+            font.size = Pt(12)
             
 
-
+    
 
 
     def set_cell_font(self,cell,size):
@@ -354,14 +319,7 @@ class MainApp(QMainWindow, ui):
 
     
 
-    def make_new_doc(self):
-        doc = docx.Document()
-        self.set_pageMargin(doc)
-        self.set_header(doc)
-        self.add_paragraph(doc)
-        self.set_footer(doc)
-        self.add_table1(doc)
-
+    
         doc.save("example.docx")
 
 
