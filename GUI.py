@@ -38,6 +38,8 @@ class MainApp(QMainWindow, ui):
         self.radioButton3.clicked.connect(self.radio_button_clicked)
         self.radioButton4.clicked.connect(self.radio_button_clicked)
         self.radioButton5.clicked.connect(self.radio_button_clicked)
+        print(" ")
+        
         
         
 
