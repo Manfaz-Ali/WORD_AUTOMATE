@@ -7,7 +7,7 @@ from docx.shared import Inches,Pt
 from docx.enum.table import WD_TABLE_ALIGNMENT
 from docx.enum.table import WD_ROW_HEIGHT_RULE
 from docx.enum.table import WD_ALIGN_VERTICAL
-from docx.enum.text import WD_ALIGN_PARAGRAPH
+from docx.enum.text import WD_ALIGN_PARAGRAPH,WD_TAB_ALIGNMENT
 from docx.enum.section import WD_SECTION
 from docx.oxml import OxmlElement
 from docx.oxml.ns import qn
@@ -27,24 +27,24 @@ class MainApp(QMainWindow, ui):
         self.s_grade = None
         self.setupUi(self)
         self.doc = docx.Document()
-        self.set_pageMargin(self.doc)
+        self.set_pageMargin()
         self.button_actions()
 
     
     def button_actions(self):
         self.radioButton1.clicked.connect(self.radio_button_clicked)
-        self.radioButton3.clicked.connect(self.radio_button_clicked)
-        self.radioButton4.clicked.connect(self.radio_button_clicked)
-        self.radioButton5.clicked.connect(self.radio_button_clicked)
+        self.radioButton2.clicked.connect(self.radio_button_clicked)
+        
         
         #-----------------------------------------------------------
         self.pushButton_Save.clicked.connect(self.save_doc)
-        #self.pushButton_SGrade.clicked.connect(self.get_security_grade)
-        #self.pushButton_DocName.clicked.connect(self.get_document_name)
-        self.pushButton_Header.clicked.connect(self.set_header)
-        self.pushButton_Footer.clicked.connect(self.set_footer)
-        self.pushButton_Table.clicked.connect(self.add_table1)
-        self.pushButton_PGraph.clicked.connect(self.add_paragraph)
+        self.pushButton_HdrFtr.clicked.connect(self.set_HdrFtr)
+        self.pushButton_PGraph.clicked.connect(self.para)
+        #--------------------------------------------------------
+        self.pushButton_upload_csv.clicked.connect(self.upload_csv)
+        self.pushButton_Table_generate.clicked.connect(self.draw_table)
+        self.pushButton_upload_img.clicked.connect(self.upload_img)
+        self.pushButton_Image_generate.clicked.connect(self.draw_img)
 
         
         
@@ -54,6 +54,72 @@ class MainApp(QMainWindow, ui):
         doc = self.doc
         doc.save("example.docx")
 
+    def get_docRef(self):
+        self.ref = self.lineEdit_DocRef.text()
+        return self.ref
+
+    def get_docRev(self):
+        self.rev = self.lineEdit_DocRev.text()
+        return self.rev
+    
+    def get_docDate(self):
+        self.date = self.lineEdit_DocDate.text()
+        return self.date
+    
+    # def add_table(self,df):
+    #     doc = self.doc
+    #     table = doc.add_table(rows=df.shape[0]+1, cols=df.shape[1])
+    #     header = table.rows[0].cells
+    #     for i in range(df.shape[1]):
+    #         header[i].text = df.columns[i]
+    #     for i in range(df.shape[0]):
+    #         row = table.rows[i+1].cells
+    #         for j in range(df.shape[1]):
+    #             row[j].text = str(df.values[i,j])
+    
+    def add_table(self,df):
+        doc = self.doc
+        table = doc.add_table(rows=df.shape[0]+1, cols=df.shape[1])
+        table.style = "Table Grid"
+        for row in table.rows:
+             for cell in row.cells:
+                cell.vertical_alignment = WD_ALIGN_VERTICAL.CENTER
+                cell.paragraphs[0].alignment = WD_ALIGN_PARAGRAPH.CENTER
+        for row in table.rows:
+            row.height = Inches(0.5)
+        header = table.rows[0].cells
+        for i in range(df.shape[1]):
+            header[i].text = df.columns[i]
+            if i == 0:
+                header[i].paragraphs[0].runs[0].font.bold = True
+            header[i].paragraphs[0].runs[0].font.size = Pt(12)
+            header[i].paragraphs[0].alignment = WD_ALIGN_PARAGRAPH.CENTER
+            
+
+            header[i].paragraphs[0].runs[0].font.name = 'Arial'
+        for i in range(df.shape[0]):
+            row = table.rows[i+1].cells
+            for j in range(df.shape[1]):
+                cell = row[j].add_paragraph(str(df.values[i,j]))
+                cell.alignment = WD_ALIGN_PARAGRAPH.CENTER
+                cell.runs[0].font.size = Pt(12)
+                cell.runs[0].font.name = 'Arial'
+                
+                if j == 0:
+                    cell.runs[0].font.bold = True
+
+    
+    def upload_csv(self):
+        file_path, _ = QFileDialog.getOpenFileName(self, "Open CSV File", ".", "CSV Files (*.csv)")
+        if file_path:
+            self.lineEdit_csv_FilePath.setText(file_path)
+
+    def draw_table(self):
+        # Read CSV file using pandas
+        file_path = self.lineEdit_csv_FilePath.text()
+        if file_path:
+            df = pd.read_csv(file_path)
+            self.add_table(df)
 
     
 
@@ -61,12 +127,9 @@ class MainApp(QMainWindow, ui):
         
         if self.radioButton1.isChecked():
             return 1
-        elif self.radioButton3.isChecked():
-            return 3
-        elif self.radioButton4.isChecked():
-            return 4
-        else:
-            return 5
+        if self.radioButton2.isChecked():
+            return 2
+        
 
     
     
@@ -77,18 +140,26 @@ class MainApp(QMainWindow, ui):
 
 
     def get_document_name(self):
-        self.doc_name = self.lineEdit_Document_Name.text()
-        self.doc_name = self.doc_name.upper()
+        self.doc_name = self.lineEdit_DocName.text()
         return self.doc_name
 
     def get_security_grade(self):
-        self.s_grade = self.lineEdit_Security_Grade.text()
-        self.s_grade = self.s_grade.upper()
-        print(self.s_grade)
+        self.s_grade = self.lineEdit_SGrade.text()
         return self.s_grade
 
+    def set_HdrFtr(self):
+        doc_name = self.get_document_name()
+        doc_sGrd = self.get_security_grade()
+        doc_refN = self.get_docRef()
+        doc_revN = self.get_docRev()
+        doc_date = self.get_docDate()
 
-    def set_pageMargin(self,doc):
+        self.set_header(doc_name,doc_sGrd)
+        self.set_footer(doc_sGrd,doc_refN,doc_revN,doc_date)
+
+
+    def set_pageMargin(self):
+        doc = self.doc
         sections = doc.sections
         for section in sections:
             section.top_margin = Inches(0.5)
@@ -96,31 +167,32 @@ class MainApp(QMainWindow, ui):
             section.left_margin = Inches(1.5)
             section.right_margin = Inches(0.5)
 
-    def set_header(self,doc):
+    def set_header(self,your_docNm,your_sGrd):
+        doc = self.doc
         header = doc.sections[0].header
-
-        print(header.is_linked_to_previous)
-        # ui_hdr_doc_nam = self.get_document_name()
-        ui_hdr_doc_nam = "my new document for test".upper()
+        if your_docNm == '':
+            ui_hdr_doc_nam = "my new document for test"
+        else:
+            ui_hdr_doc_nam = your_docNm
+        if your_sGrd == '':
+            ui_hdr_s_grd = "confidential"
+        else:
+            ui_hdr_s_grd = your_sGrd
+        ui_hdr_doc_nam = ui_hdr_doc_nam.upper()
+        ui_hdr_s_grd = ui_hdr_s_grd.upper()
         print(ui_hdr_doc_nam)
-        # ui_hdr_s_grd = self.get_security_grade()
-        ui_hdr_s_grd = "confidential".upper()
+        print(ui_hdr_s_grd)
         table = header.add_table(rows=1, cols=3, width=Inches(8.01))
         table.style = 'Table Grid'
         table.alignment = WD_TABLE_ALIGNMENT.CENTER
         # Resize the table to fit the header
         # for all rows
-        #--------
         for row in table.rows:
             for cell in row.cells:
                 cell.width = docx.shared.Inches(2.67)
         # first cell
         first_cell = table.cell(0, 0)
         first_cell.text = ui_hdr_doc_nam
-        
-        first_cell.paragraphs[0].paragraph_format.alignment = WD_ALIGN_PARAGRAPH.CENTER
-        first_cell.paragraphs[0].style.font.bold = False
-        first_cell.vertical_alignment = WD_ALIGN_VERTICAL.CENTER
         self.set_cell_font(first_cell,12)
         
         
@@ -128,9 +200,6 @@ class MainApp(QMainWindow, ui):
         # second cell
         second_cell = table.cell(0, 1)
         second_cell.text = ui_hdr_s_grd
-        second_cell.paragraphs[0].paragraph_format.alignment = WD_ALIGN_PARAGRAPH.CENTER
-        second_cell.vertical_alignment = WD_ALIGN_VERTICAL.CENTER
-        second_cell.paragraphs[0].style.font.bold = False
         self.set_cell_font(second_cell,12)
         # third cell
         third_cell = table.cell(0, 2)
@@ -152,72 +221,66 @@ class MainApp(QMainWindow, ui):
         
         print("header done")
     
-    def set_footer(self,doc):
+    def set_footer(self,sGrd,dRef,dRev,dDate):
+        doc = self.doc
         # Set the footer of the document
         section = doc.sections[-1]
         footer = section.footer
-
         # Create a table with one row and three columns
         table = footer.add_table(rows=2, cols=4, width=Inches(8))
         table.alignment = WD_TABLE_ALIGNMENT.CENTER
         table.style = 'Table Grid'
         # Add content to the cells
         cell1 = table.cell(0, 0)
-        cell1.text = 'Document No'
-        cell1.paragraphs[0].runs[0].bold = False
-        cell1.paragraphs[0].alignment = WD_ALIGN_PARAGRAPH.CENTER
-        cell1.vertical_alignment = WD_ALIGN_VERTICAL.CENTER
+        cell1.text = "Document Ref".upper()
         cell1.width = Inches(2.5)
         self.set_cell_font(cell1,12)
 
         cell2 = table.cell(0, 1)
-        cell2.text = 'Rev No'
-        cell2.paragraphs[0].runs[0].bold = False
-        cell2.paragraphs[0].alignment = WD_ALIGN_PARAGRAPH.CENTER
-        cell2.vertical_alignment = WD_ALIGN_VERTICAL.CENTER
+        cell2.text = "Rev No".upper()
         cell2.width = Inches(1.5)
         self.set_cell_font(cell2,12)
 
         cell3 = table.cell(0, 2)
-        cell3.text = 'Date'
-        cell3.paragraphs[0].runs[0].bold = False
-        cell3.paragraphs[0].alignment = WD_ALIGN_PARAGRAPH.CENTER
-        cell3.vertical_alignment = WD_ALIGN_VERTICAL.CENTER
+        cell3.text = "DATE"
         cell3.width = Inches(2)
         self.set_cell_font(cell3, 12)
 
         cell4 = table.cell(0, 3)
         cell4.text = 'Page'
-        cell4.paragraphs[0].runs[0].bold = False
-        cell4.paragraphs[0].alignment = WD_ALIGN_PARAGRAPH.CENTER
-        cell4.vertical_alignment = WD_ALIGN_VERTICAL.CENTER
         cell4.width = Inches(2.5)
         self.set_cell_font(cell4, 12)
 
         cell5 = table.cell(1, 0)
-        doc_ref = 'dfg/opt/1-fgt-7-987'.upper()
-        cell5.text = doc_ref
-        cell5.paragraphs[0].runs[0].bold = False
-        cell5.paragraphs[0].alignment = WD_ALIGN_PARAGRAPH.CENTER
-        cell5.vertical_alignment = WD_ALIGN_VERTICAL.CENTER
+        if dRef == '':
+            doc_Ref = 'Enter Doc Ref'
+        else:
+            doc_Ref = dRef
+        doc_Ref = doc_Ref.upper()
+        print(f"Ref No In Footer : {doc_Ref}")
+        cell5.text = doc_Ref
         cell5.width = Inches(2)
         self.set_cell_font(cell5, 12)
 
         cell6 = table.cell(1, 1)
-        doc_rev = '0'
-        cell6.text = doc_rev
-        cell6.paragraphs[0].runs[0].bold = False
-        cell6.paragraphs[0].alignment = WD_ALIGN_PARAGRAPH.CENTER
-        cell6.vertical_alignment = WD_ALIGN_VERTICAL.CENTER
+        if dRev == '':
+            doc_Rev = 'Enter Rev No'
+        else:
+            doc_Rev = dRev
+        doc_Rev = doc_Rev.upper()
+        print(f"Rev No In Footer : {doc_Rev}")
+        cell6.text = doc_Rev
         cell6.width = Inches(1.5)
         self.set_cell_font(cell6, 12)
 
         cell7 = table.cell(1, 2)
-        doc_date = '25-01-2023'.upper()
-        cell7.text = doc_date
-        cell7.paragraphs[0].runs[0].bold = False
-        cell7.paragraphs[0].alignment = WD_ALIGN_PARAGRAPH.CENTER
-        cell7.vertical_alignment = WD_ALIGN_VERTICAL.CENTER
+        if dDate == '':
+            doc_Date = 'Enter Date'
+        else:
+            doc_Date = dDate
+        doc_Date = doc_Date.upper()
+        print(f"Date In Footer : {doc_Date}")
+        cell7.text = doc_Date
         cell7.width = Inches(2)
         self.set_cell_font(cell7, 12)
 
@@ -230,14 +293,14 @@ class MainApp(QMainWindow, ui):
         field = OxmlElement('w:fldSimple')
         field.set(qn('w:instr'), 'NUMPAGES')
         run._r.append(field)
-        run.font.bold = False
-        run.font.size = Pt(12)
-        cell8.paragraphs[0].alignment = WD_ALIGN_PARAGRAPH.CENTER
-        cell8.vertical_alignment = WD_ALIGN_VERTICAL.CENTER
         self.set_cell_font(cell8,12)
-
         paragraph = footer.add_paragraph()
-        p = "confidential".upper()
+        if sGrd == '':
+            p = "confidential"
+        else:
+            p = sGrd
+        p = p.upper()
+        print(f"Security Grade In Footer : {p}")
         footer_run = paragraph.add_run(p)
         footer_run.bold = False
         footer_run.font.size = Pt(12)
@@ -250,78 +313,133 @@ class MainApp(QMainWindow, ui):
         # footer row height
         for row in table.rows:
             row.height = Inches(0.5)
-        print("footer done")
+        print("Footer done")
 
 
-    def add_paragraph(self):
+
+    def get_P_heading(self):
+        heading = self.lineEdit_paragraph_heading.text()
+        heading = heading.upper()
+        return heading
+
+    def heading_handler(self,heading):
+        p_head = '\n' + heading 
+        # doc =self.doc
+        # heading = doc.add_paragraph(p_head)
+        # # Set the font size and style of the heading
+        # font = heading.style.font
+        # font.name = 'Arial'
+        # font.size = Pt(12)
+        # heading.runs[0].style.font.bold = True
+        # # font.bold = True
+        # heading.alignment = docx.enum.text.WD_ALIGN_PARAGRAPH.CENTER
+        #----------------------------------------------------
+        # para_head = doc.add_paragraph(p_head)
+        # para_head.alignment = docx.enum.text.WD_ALIGN_PARAGRAPH.CENTER
+        # font = para_head.style.font
+        # font.bold = True
+        # font.name = 'Arial'
+        # font.size = docx.shared.Pt(12)
+        doc = self.doc
+        heading = doc.add_paragraph(p_head)
+
+        # Set the font size and style of the heading
+        font = heading.style.font
+        font.name = 'Arial'
+        font.size = Pt(12)
+
+        # Apply bold to all runs in the heading
+        for run in heading.runs:
+            run.font.bold = True
+
+        # Center align the heading
+        heading.alignment = docx.enum.text.WD_ALIGN_PARAGRAPH.CENTER
+        
+
+    def para_text(self):
+        P_text = self.textEdit_paraGraph_text.toPlainText()
+        return P_text
+
+
+    def para(self):
+        your_heading = self.get_P_heading()
+        self.heading_handler(your_heading)
+        self.add_paragraph1()
+
+    def add_paragraph1(self):
         doc = self.doc
         check = self.radio_button_clicked()
-
+        your_para = self.para_text()
+        if your_para == '':
+            paragraph = "This is Dummy Paragraph. This is Dummy Paragraph. This is Dummy Paragraph. This is Dummy Paragraph. This is Dummy Paragraph. This is Dummy Paragraph. This is Dummy Paragraph. This is Dummy Paragraph. This is Dummy Paragraph. This is Dummy Paragraph. This is Dummy Paragraph. This is Dummy Paragraph. This is Dummy Paragraph. This is Dummy Paragraph. This is Dummy Paragraph. This is Dummy Paragraph. This is Dummy Paragraph. This is Dummy Paragraph. This is Dummy Paragraph. This is Dummy Paragraph. This is Dummy Paragraph. This is Dummy Paragraph. This is Dummy Paragraph. This is Dummy Paragraph. "
+        else:
+            paragraph = your_para
         if check == 1:
-            new_paragraph = "Science and technology have become essential aspects of our lives. Technology was a luxury at a point in time, but now it has become a necessity. It is impossible to survive without electricity, television, music systems, mobile phones, internet connections, etc. We start and end our day with technology. So it is indeed difficult to imagine our life without technology, but it should be used with caution. If we become too dependent on technology, it will end up being harmful to us and our health. Overuse of technology can also become self-destructive, so it is important everyone uses technology only when necessary."
-            new_paragraph = '\n\n\t' + new_paragraph + '\n\n'
-            doc.add_paragraph(new_paragraph).style.font.bold = False
+            paragraph = '\n\n\t' + paragraph + '\n\n'
+            doc.add_paragraph(paragraph).style.font.bold = False
             style = doc.styles['Normal']
             font = style.font
             font.name = 'Arial'
             font.size = Pt(12)
-        elif check==3:
-            dparagraph = doc.add_paragraph()
-            dparagraph.add_run('\n')
-            paragraph = doc.add_paragraph()
-            paragraph.add_run('\t')
-            paragraph.add_run("Science and technology have become essential aspects of our lives. Technology was a luxury at a point in time, but now it has become a necessity. It is impossible to survive without electricity, television, music systems, mobile phones, internet connections, etc. We start and end our day with technology. So it is indeed difficult to imagine our life without technology, but it should be used with caution. If we become too dependent on technology, it will end up being harmful to us and our health. Overuse of technology can also become self-destructive, so it is important everyone uses technology only when necessary.")
+            font.bold = False
+        elif check==2:
+            paragraph = doc.add_paragraph(paragraph)
             paragraph.style = 'List Number'
             style = doc.styles['Normal']
             font = style.font
             font.name = 'Arial'
             font.size = Pt(12)
+            font.bold = False
+        
+            
+            
+
+            
+            
+
+            
+
             
 
     
 
 
     def set_cell_font(self,cell,size):
-        cell.paragraphs[0].runs[0].font.size = Pt(size)
+        #cell.paragraphs[0].runs[0].font.size = Pt(size)
+        cell.paragraphs[0].style.font.size = Pt(size)
+        cell.paragraphs[0].paragraph_format.alignment = WD_ALIGN_PARAGRAPH.CENTER
+        cell.paragraphs[0].style.font.bold = False
+        cell.paragraphs[0].style.font.name = 'Arial'
+        cell.vertical_alignment = WD_ALIGN_VERTICAL.CENTER
+
+    def upload_img(self):
+        self.file_path, _ = QFileDialog.getOpenFileName(self, 'Select Image File', '', 'JPEG Files (*.jpg);;JPG Files (*.jpeg);;PNG Files (*.png)')
+        if self.file_path:
+            self.lineEdit_img_FilePath.setText(self.file_path)
+
+    def draw_img(self):
+        # Read CSV file using pandas
+        file_path = self.lineEdit_img_FilePath.text()
+        if file_path:
+            self.insert_img(file_path)
 
 
-
-
-    def add_table1(self,doc):
-        
-        data = pd.read_csv("data.csv")
-        num_rows, num_cols = data.shape
-        table = doc.add_table(rows=num_rows+1, cols=num_cols)
-        table.style = "Table Grid"
-        # Center align the table
-        table.alignment = WD_TABLE_ALIGNMENT.CENTER
-
-        # Add the column headings to the first row of the table
-        heading_row = table.rows[0]
-        for i in range(num_cols):
-            heading_cell = heading_row.cells[i]
-            heading_cell.text = data.columns[i]
-            heading_cell.paragraphs[0].runs[0].bold = True
-
-        # Add the data to the table
-        for i in range(num_rows):
-            row_data = data.iloc[i]
-            row = table.rows[i+1]
-            for j in range(num_cols):
-                value = str(row_data[j])
-                cell = row.cells[j]
-                cell.text = value
-                if j == 0:
-                    # Set the font size and bold the text in the first column
-                    cell.paragraphs[0].runs[0].font.size = Pt(12)
-                    cell.paragraphs[0].runs[0].bold = True
-        self.file_path_textedit.setText("Job Done")
-
+    def insert_img(self,path_img):
+        doc = self.doc
+        doc.add_paragraph()
+        doc.add_picture(path_img, width=Inches(4))
+        inline_shape = doc.inline_shapes[-1]
+        width, height = inline_shape.width, inline_shape.height
+        aspect_ratio = int(height / width)
+        new_width = Inches(2)
+        new_height = aspect_ratio * new_width
+        inline_shape.width = new_width
+        inline_shape.height = new_height
+        paragraph = doc.paragraphs[-1]
+        paragraph_format = paragraph.paragraph_format
+        paragraph_format.alignment = docx.enum.text.WD_ALIGN_PARAGRAPH.CENTER
+        doc.add_paragraph()
     
-
-    
-        doc.save("example.docx")
-
 
 
 
