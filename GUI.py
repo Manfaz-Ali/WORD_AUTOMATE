@@ -42,7 +42,7 @@ class MainApp(QMainWindow, ui):
         self.pushButton_PGraph.clicked.connect(self.para)
         #--------------------------------------------------------
         self.pushButton_upload_csv.clicked.connect(self.upload_csv)
-        self.pushButton_Table_generate.clicked.connect(self.draw_table)
+        self.pushButton_Table_generate.clicked.connect(self.tabular)
         self.pushButton_upload_img.clicked.connect(self.upload_img)
         self.pushButton_Image_generate.clicked.connect(self.img)
 
@@ -66,16 +66,7 @@ class MainApp(QMainWindow, ui):
         self.date = self.lineEdit_DocDate.text()
         return self.date
     
-    # def add_table(self,df):
-    #     doc = self.doc
-    #     table = doc.add_table(rows=df.shape[0]+1, cols=df.shape[1])
-    #     header = table.rows[0].cells
-    #     for i in range(df.shape[1]):
-    #         header[i].text = df.columns[i]
-    #     for i in range(df.shape[0]):
-    #         row = table.rows[i+1].cells
-    #         for j in range(df.shape[1]):
-    #             row[j].text = str(df.values[i,j])
+    
     
     def add_table(self,df):
         doc = self.doc
@@ -113,6 +104,18 @@ class MainApp(QMainWindow, ui):
         file_path, _ = QFileDialog.getOpenFileName(self, "Open CSV File", ".", "CSV Files (*.csv)")
         if file_path:
             self.lineEdit_csv_FilePath.setText(file_path)
+
+
+    def tbl_heading(self):
+        t_head = self.lineEdit_table_heading.text()
+        t_head = t_head.upper()
+        return t_head
+
+    def tabular(self):
+        t=self.tbl_heading()
+        self.i_heading_handler(t)
+        self.draw_table()
+
 
     def draw_table(self):
         # Read CSV file using pandas
@@ -386,6 +389,7 @@ class MainApp(QMainWindow, ui):
             font.size = Pt(12)
             font.bold = False
         elif check==2:
+            paragraph = '\n\n\t' + paragraph + '\n\n'
             paragraph = doc.add_paragraph(paragraph)
             paragraph.style = 'List Number'
             style = doc.styles['Normal']
