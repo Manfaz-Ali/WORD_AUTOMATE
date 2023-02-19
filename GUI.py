@@ -44,7 +44,7 @@ class MainApp(QMainWindow, ui):
         self.pushButton_upload_csv.clicked.connect(self.upload_csv)
         self.pushButton_Table_generate.clicked.connect(self.draw_table)
         self.pushButton_upload_img.clicked.connect(self.upload_img)
-        self.pushButton_Image_generate.clicked.connect(self.draw_img)
+        self.pushButton_Image_generate.clicked.connect(self.img)
 
         
         
@@ -322,37 +322,33 @@ class MainApp(QMainWindow, ui):
         heading = heading.upper()
         return heading
 
-    def heading_handler(self,heading):
+
+    def get_Img_heading(self):
+        heading = self.lineEdit_img_heading.text()
+        heading = heading.upper()
+        return heading
+
+
+    def p_heading_handler(self,heading):
         p_head = '\n' + heading 
-        # doc =self.doc
-        # heading = doc.add_paragraph(p_head)
-        # # Set the font size and style of the heading
-        # font = heading.style.font
-        # font.name = 'Arial'
-        # font.size = Pt(12)
-        # heading.runs[0].style.font.bold = True
-        # # font.bold = True
-        # heading.alignment = docx.enum.text.WD_ALIGN_PARAGRAPH.CENTER
-        #----------------------------------------------------
-        # para_head = doc.add_paragraph(p_head)
-        # para_head.alignment = docx.enum.text.WD_ALIGN_PARAGRAPH.CENTER
-        # font = para_head.style.font
-        # font.bold = True
-        # font.name = 'Arial'
-        # font.size = docx.shared.Pt(12)
         doc = self.doc
         heading = doc.add_paragraph(p_head)
-
-        # Set the font size and style of the heading
         font = heading.style.font
         font.name = 'Arial'
         font.size = Pt(12)
-
-        # Apply bold to all runs in the heading
         for run in heading.runs:
             run.font.bold = True
+        heading.alignment = docx.enum.text.WD_ALIGN_PARAGRAPH.CENTER
 
-        # Center align the heading
+    def i_heading_handler(self,heading):
+        p_head = '\n' + heading 
+        doc = self.doc
+        heading = doc.add_paragraph(p_head)
+        font = heading.style.font
+        font.name = 'Arial'
+        font.size = Pt(12)
+        for run in heading.runs:
+            run.font.bold = False
         heading.alignment = docx.enum.text.WD_ALIGN_PARAGRAPH.CENTER
         
 
@@ -360,10 +356,17 @@ class MainApp(QMainWindow, ui):
         P_text = self.textEdit_paraGraph_text.toPlainText()
         return P_text
 
+    
+    def img(self):
+        img_heading = self.get_Img_heading()
+        self.i_heading_handler(img_heading)
+        self.draw_img()
+
+
 
     def para(self):
         your_heading = self.get_P_heading()
-        self.heading_handler(your_heading)
+        self.p_heading_handler(your_heading)
         self.add_paragraph1()
 
     def add_paragraph1(self):

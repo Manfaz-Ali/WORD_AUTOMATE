@@ -29,7 +29,7 @@
      </font>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>3</number>
     </property>
     <widget class="QWidget" name="tab1">
      <attribute name="title">
@@ -374,7 +374,7 @@
       <property name="geometry">
        <rect>
         <x>180</x>
-        <y>280</y>
+        <y>380</y>
         <width>861</width>
         <height>91</height>
        </rect>
@@ -395,7 +395,7 @@
       <property name="geometry">
        <rect>
         <x>660</x>
-        <y>120</y>
+        <y>220</y>
         <width>381</width>
         <height>131</height>
        </rect>
@@ -408,13 +408,49 @@
       <property name="geometry">
        <rect>
         <x>180</x>
-        <y>120</y>
+        <y>220</y>
         <width>381</width>
         <height>131</height>
        </rect>
       </property>
       <property name="text">
        <string>UPLOAD IMG FILE</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="lineEdit_img_heading">
+      <property name="geometry">
+       <rect>
+        <x>180</x>
+        <y>130</y>
+        <width>861</width>
+        <height>61</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>16</pointsize>
+       </font>
+      </property>
+      <property name="placeholderText">
+       <string>Enter Your Heading Here</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_12">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>140</y>
+        <width>161</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>12</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>IMAGE HEADING</string>
       </property>
      </widget>
     </widget>
