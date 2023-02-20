@@ -58,6 +58,11 @@ class MainApp(QMainWindow, ui):
         self.ref = self.lineEdit_DocRef.text()
         return self.ref
 
+
+    def get_LmRef(self):
+        ref = self.lineEdit_LM_NO.text()
+        return ref
+
     def get_docRev(self):
         self.rev = self.lineEdit_DocRev.text()
         return self.rev
@@ -65,7 +70,14 @@ class MainApp(QMainWindow, ui):
     def get_docDate(self):
         self.date = self.lineEdit_DocDate.text()
         return self.date
-    
+
+    def get_LmDate(self):
+        date = self.lineEdit_Date.text()
+        return date
+
+    def get_To(self):
+        to = self.lineEdit_To.text()
+        return to
     
     
     def add_table(self,df):
@@ -149,6 +161,78 @@ class MainApp(QMainWindow, ui):
     def get_security_grade(self):
         self.s_grade = self.lineEdit_SGrade.text()
         return self.s_grade
+
+    def get_LmSGRD(self):
+        s_grade = self.lineEdit_Security_Grades.text()
+        return s_grade
+
+    def get_LmForName(self):
+        name = self.lineEdit_Name.text()
+        return name
+
+    def get_LmForRank(self):
+        rank = self.lineEdit_Rank.text()
+        return rank
+
+
+    def LmHeader(self,headerText):
+        doc = self.doc
+        header = doc.sections[0].header
+        paragraph = header.paragraphs[0]
+        paragraph.add_run(headerText)
+        # set the paragraph properties
+        paragraph.alignment = docx.enum.text.WD_ALIGN_PARAGRAPH.CENTER
+        paragraph.style.font.name = 'Arial'
+        paragraph.style.font.size = docx.shared.Pt(12)
+        paragraph.style.font.bold = False
+
+    def LmFooter(self,footerText):
+        doc = self.doc
+        footer = doc.sections[0].footer
+        paragraph = footer.paragraphs[0]
+        paragraph.add_run(footerText)
+        # set the paragraph properties
+        paragraph.alignment = docx.enum.text.WD_ALIGN_PARAGRAPH.CENTER
+        paragraph.style.font.name = 'Arial'
+        paragraph.style.font.size = docx.shared.Pt(12)
+        paragraph.style.font.bold = False
+
+    def LmHdrFtr(self,grade):
+        self.LmHeader(grade)
+        self.LmFooter(grade)
+
+    def get_GrpOfLmFor(self):
+        grp = self.lineEdit_Group.text()
+        return grp
+
+    def get_tellOfLmFor(self):
+        tel = self.lineEdit_Tell.text()
+        return tel
+
+    def LmMaker(self,To,LM_REFRENCE,DATE,NAME,RANK,GROUP,TEL,user_func):
+        doc = self.doc
+        doc.add_paragraph("")
+        doc.add_paragraph("")
+        paragraph  = doc.add_paragraph()
+        
+
+
+
+    def save_LM(self):
+        sg = self.get_LmSGRD()
+        self.LmHdrFtr(sg)
+        to = self.get_To()
+        lm_no = self.get_LmRef()
+        date = self.get_LmDate()
+        nam = self.get_LmForName()
+        rnk = self.get_LmForRank()
+        grp = self.get_GrpOfLmFor()
+        tel = self.get_tellOfLmFor()
+
+
+
+
+
 
     def set_HdrFtr(self):
         doc_name = self.get_document_name()
