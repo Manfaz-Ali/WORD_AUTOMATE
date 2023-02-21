@@ -288,83 +288,26 @@ class MainApp(QMainWindow, ui):
         table.style = 'Table Grid'
         
 
-        table.cell(0, 0).text = "Table Grid"
-        table.cell(1, 0).text = "Table Grid"
+        table.cell(0, 0).text = s_hd
+        table.cell(1, 0).text = l_hd
 
-        table.cell(0, 0).text.font.size = Pt(14)
+        run = table.cell(0, 0).paragraphs[0].runs[0]
+        run.font.bold = True
+        run.font.size = Pt(12)
 
+        run = table.cell(1, 0).paragraphs[0].runs[0]
+        run.font.bold = True
+        run.font.size = Pt(14)
 
-        # row_cells = table.rows[0].cells
-        # cell = row_cells[0]
-        # paragraph = cell.paragraphs[0]
-        # run = paragraph.add_run("Dog")
-        # run.bold = True
-        # run.style.font.size = Pt(14)
+        table.cell(0, 0).vertical_alignment = WD_ALIGN_VERTICAL.CENTER
+        table.cell(0, 0).paragraphs[0].paragraph_format.alignment = WD_ALIGN_PARAGRAPH.CENTER
 
-        # row2_cell.text = "Dog"
-        # row2_cell.paragraphs[0].style.font.size = Pt(14)
-        # row2_cell.paragraphs[0].style.font.bold = True
+        table.cell(1, 0).vertical_alignment = WD_ALIGN_VERTICAL.CENTER
+        table.cell(1, 0).paragraphs[0].paragraph_format.alignment = WD_ALIGN_PARAGRAPH.CENTER
 
-        # row1_cell = table.rows[0].cells[0]
-        # row1_cell.text = "Dog"
-        # row1_cell.paragraphs[0].style.font.size = Pt(12)
-        # row1_cell.paragraphs[0].style.font.bold = True
-
-
-
-        # row_cells = table.add_row().cells
-        # cell = row_cells[0]
-        # # ---each newly-added cell contains a single empty paragraph---
-        # paragraph = cell.paragraphs[0]
-        # run = paragraph.add_run("Dog")
-        # run.underline = True
+        table.rows[0].height = Inches(0.5)
+        table.rows[1].height = Inches(0.5)
         
-        # row_cells[1].text = "Grey"
-        # row_cells[1].paragraphs[0].style.font.size = Pt(14)
-        # row_cells[1].paragraphs[0].style.font.bold = True
-
-        # row_cells = table.add_row().cells
-        # row_cells[0].text = "Cat"
-        
-
-        # row_cells[1].text = "Black"
-        
-
-
-        # doc.add_paragraph('After table')
-        
-        
-        
-
-
-
-
-
-        #------------------------------------------------------------
-        # first_cell.paragraphs[0].style.font.bold = True
-        # first_cell.paragraphs[0].style.font.name = 'Arial'
-        # first_cell.vertical_alignment = WD_ALIGN_VERTICAL.CENTER
-        
-        
-        
-        
-        # # second cell
-        # second_cell = table.cell(1, 0)
-        # # second_cell.paragraphs[0].style.font.size = Pt(14)
-        # # second_cell.text = "l_hd"
-        # lower_cell = table.rows[0].cells
-        # text2 = lower_cell[0].paragraphs[0]
-        # run1 = text2.add_run('This is some text')
-        # run1.bold = True
-        # run1.size - Pt(14)
-        # second_cell.paragraphs[0].paragraph_format.alignment = WD_ALIGN_PARAGRAPH.CENTER
-        # # second_cell.paragraphs[0].style.font.bold = True
-        # # second_cell.paragraphs[0].style.font.name = 'Arial'
-        # second_cell.vertical_alignment = WD_ALIGN_VERTICAL.CENTER
-        # row = table.rows
-
-        # row[0].height = Inches(0.5)
-        # row[1].height = Inches(0.5)
         
         
 
