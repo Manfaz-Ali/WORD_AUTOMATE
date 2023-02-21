@@ -465,15 +465,21 @@ class MainApp(QMainWindow, ui):
         else:
             paragraph = your_para
         if check == 1:
-            paragraph = '\t' + paragraph + '\n'
+            doc.add_paragraph("")
+            doc.add_paragraph("")
+            paragraph = '\t' + paragraph 
             doc.add_paragraph(paragraph).style.font.bold = False
             style = doc.styles['Normal']
             font = style.font
             font.name = 'Arial'
             font.size = Pt(12)
             font.bold = False
+            doc.add_paragraph("")
+            doc.add_paragraph("")
         elif check==2:
-            paragraph = '\t' + paragraph + '\n'
+            doc.add_paragraph("")
+            doc.add_paragraph("")
+            paragraph = '\t' + paragraph 
             paragraph = doc.add_paragraph(paragraph)
             paragraph.style = 'List Number'
             style = doc.styles['Normal']
@@ -481,6 +487,8 @@ class MainApp(QMainWindow, ui):
             font.name = 'Arial'
             font.size = Pt(12)
             font.bold = False
+            doc.add_paragraph("")
+            doc.add_paragraph("")
         
             
             
