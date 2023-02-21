@@ -259,16 +259,20 @@ class MainApp(QMainWindow, ui):
 
     def get_table_sHd(self):
         s_hd = self.lineEdit_TableHeadS.text()
-        return s_hd.upper()
+        s_hd = s_hd.upper()
+        return s_hd
 
 
     def get_table_lHd(self):
         l_hd = self.lineEdit_TableHeadL.text()
-        return l_hd.upper()
+        l_hd = l_hd.upper()
+        return l_hd
     
     def HeadingTable(self):
         s = self.get_table_sHd
         l = self.get_table_sHd
+        print(s)
+        print(l)
         self.table_heading(s,l)
 
 
