@@ -45,6 +45,8 @@ class MainApp(QMainWindow, ui):
         self.pushButton_Table_generate.clicked.connect(self.tabular)
         self.pushButton_upload_img.clicked.connect(self.upload_img)
         self.pushButton_Image_generate.clicked.connect(self.img)
+        self.pushButton_TableHeading.clicked.connect(self.HeadingTable)
+        
 
         
         
@@ -254,6 +256,120 @@ class MainApp(QMainWindow, ui):
             section.left_margin = Inches(1.5)
             section.right_margin = Inches(0.5)
 
+
+    def get_table_sHd(self):
+        s_hd = self.lineEdit_TableHeadS.text()
+        return s_hd.upper()
+
+
+    def get_table_lHd(self):
+        l_hd = self.lineEdit_TableHeadL.text()
+        return l_hd.upper()
+    
+    def HeadingTable(self):
+        s = self.get_table_sHd
+        l = self.get_table_sHd
+        self.table_heading(s,l)
+
+
+
+    def table_heading(self,s_hd,l_hd):
+        doc = self.doc
+        doc.add_paragraph("")
+
+        styles = doc.styles
+
+        
+        
+
+        
+
+        table = doc.add_table(rows=2, cols=1)
+        table.style = 'Table Grid'
+        
+
+        table.cell(0, 0).text = "Table Grid"
+        table.cell(1, 0).text = "Table Grid"
+
+        table.cell(0, 0).text.font.size = Pt(14)
+
+
+        # row_cells = table.rows[0].cells
+        # cell = row_cells[0]
+        # paragraph = cell.paragraphs[0]
+        # run = paragraph.add_run("Dog")
+        # run.bold = True
+        # run.style.font.size = Pt(14)
+
+        # row2_cell.text = "Dog"
+        # row2_cell.paragraphs[0].style.font.size = Pt(14)
+        # row2_cell.paragraphs[0].style.font.bold = True
+
+        # row1_cell = table.rows[0].cells[0]
+        # row1_cell.text = "Dog"
+        # row1_cell.paragraphs[0].style.font.size = Pt(12)
+        # row1_cell.paragraphs[0].style.font.bold = True
+
+
+
+        # row_cells = table.add_row().cells
+        # cell = row_cells[0]
+        # # ---each newly-added cell contains a single empty paragraph---
+        # paragraph = cell.paragraphs[0]
+        # run = paragraph.add_run("Dog")
+        # run.underline = True
+        
+        # row_cells[1].text = "Grey"
+        # row_cells[1].paragraphs[0].style.font.size = Pt(14)
+        # row_cells[1].paragraphs[0].style.font.bold = True
+
+        # row_cells = table.add_row().cells
+        # row_cells[0].text = "Cat"
+        
+
+        # row_cells[1].text = "Black"
+        
+
+
+        # doc.add_paragraph('After table')
+        
+        
+        
+
+
+
+
+
+        #------------------------------------------------------------
+        # first_cell.paragraphs[0].style.font.bold = True
+        # first_cell.paragraphs[0].style.font.name = 'Arial'
+        # first_cell.vertical_alignment = WD_ALIGN_VERTICAL.CENTER
+        
+        
+        
+        
+        # # second cell
+        # second_cell = table.cell(1, 0)
+        # # second_cell.paragraphs[0].style.font.size = Pt(14)
+        # # second_cell.text = "l_hd"
+        # lower_cell = table.rows[0].cells
+        # text2 = lower_cell[0].paragraphs[0]
+        # run1 = text2.add_run('This is some text')
+        # run1.bold = True
+        # run1.size - Pt(14)
+        # second_cell.paragraphs[0].paragraph_format.alignment = WD_ALIGN_PARAGRAPH.CENTER
+        # # second_cell.paragraphs[0].style.font.bold = True
+        # # second_cell.paragraphs[0].style.font.name = 'Arial'
+        # second_cell.vertical_alignment = WD_ALIGN_VERTICAL.CENTER
+        # row = table.rows
+
+        # row[0].height = Inches(0.5)
+        # row[1].height = Inches(0.5)
+        
+        
+
+
+
     def set_header(self,your_docNm,your_sGrd):
         doc = self.doc
         header = doc.sections[0].header
@@ -417,8 +533,9 @@ class MainApp(QMainWindow, ui):
 
 
     def p_heading_handler(self,heading):
-        p_head = '\n' + heading 
+        p_head = heading 
         doc = self.doc
+        doc.add_paragraph("")
         heading = doc.add_paragraph(p_head)
         font = heading.style.font
         font.name = 'Arial'
@@ -428,8 +545,9 @@ class MainApp(QMainWindow, ui):
         heading.alignment = docx.enum.text.WD_ALIGN_PARAGRAPH.CENTER
 
     def i_heading_handler(self,heading):
-        p_head = '\n' + heading 
+        p_head = heading 
         doc = self.doc
+        doc.add_paragraph("")
         heading = doc.add_paragraph(p_head)
         font = heading.style.font
         font.name = 'Arial'
@@ -475,9 +593,8 @@ class MainApp(QMainWindow, ui):
             font.size = Pt(12)
             font.bold = False
             doc.add_paragraph("")
-            doc.add_paragraph("")
+            
         elif check==2:
-            doc.add_paragraph("")
             doc.add_paragraph("")
             paragraph = '\t' + paragraph 
             paragraph = doc.add_paragraph(paragraph)
