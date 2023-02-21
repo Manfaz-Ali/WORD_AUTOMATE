@@ -46,6 +46,7 @@ class MainApp(QMainWindow, ui):
         self.pushButton_upload_img.clicked.connect(self.upload_img)
         self.pushButton_Image_generate.clicked.connect(self.img)
         self.pushButton_TableHeading.clicked.connect(self.HeadingTable)
+        self.pushButton.clicked.connect(self.save_LM)
         
 
         
@@ -63,6 +64,7 @@ class MainApp(QMainWindow, ui):
 
     def get_LmRef(self):
         ref = self.lineEdit_LM_NO.text()
+        
         return ref
 
     def get_docRev(self):
@@ -211,11 +213,89 @@ class MainApp(QMainWindow, ui):
         tel = self.lineEdit_Tell.text()
         return tel
 
-    def LmMaker(self,To,LM_REFRENCE,DATE,NAME,RANK,GROUP,TEL,user_func):
+    def LmMaker(self,To,LM_REFRENCE,DATE,NAME,RANK,GROUP,TEL):
         doc = self.doc
         doc.add_paragraph("")
         doc.add_paragraph("")
-        paragraph  = doc.add_paragraph()
+        #your_para = self.user_func()
+        # Add the title
+        org_name = "Avionics Production Factory"
+        title = doc.add_paragraph(org_name)
+        title.alignment = docx.enum.text.WD_ALIGN_PARAGRAPH.CENTER
+        title.style.font.bold = True
+        title.style.font.name = "Arial"
+        title.style.font.size = docx.shared.Pt(14)
+        title.style.font.all_caps = True
+        sub_title = "(DDD)"
+        stitle = doc.add_paragraph(sub_title)
+        stitle.alignment = docx.enum.text.WD_ALIGN_PARAGRAPH.CENTER
+        stitle.style.font.bold = False
+        stitle.style.font.name = "Arial"
+        stitle.style.font.size = docx.shared.Pt(12)
+        stitle.style.font.all_caps = True
+
+        # Add two empty lines
+        doc.add_paragraph("")
+        doc.add_paragraph("")
+
+        # Add "Jnab"
+        ref_to = doc.add_paragraph(To)
+        ref_to.alignment = docx.enum.text.WD_ALIGN_PARAGRAPH.LEFT
+
+        # Add two empty lines
+        doc.add_paragraph("")
+        doc.add_paragraph("")
+
+        # Add "This is start"
+        start = doc.add_paragraph("Subject".upper())
+        start.alignment = docx.enum.text.WD_ALIGN_PARAGRAPH.CENTER
+        start.style.font.bold = True
+        start.style.font.name = "Arial"
+        start.style.font.size = docx.shared.Pt(14)
+
+        # Add two empty lines
+        doc.add_paragraph("")
+        doc.add_paragraph("")
+
+        # Add dummy paragraph
+        dummy = doc.add_paragraph("No problem, it's easy to forget the parentheses when calling a method in Python. Just remember that without them, you are only referencing the method object itself, not the returned value. Adding the parentheses ensures that the method is called and its returned value is assigned to the variable.")
+        dummy.alignment = docx.enum.text.WD_ALIGN_PARAGRAPH.JUSTIFY
+        start.style.font.bold = False
+        start.style.font.name = "Arial"
+        start.style.font.size = docx.shared.Pt(12)
+        # Add five empty lines
+        for i in range(5):
+            doc.add_paragraph("")
+
+        # Add "rtyu", "rtwr", and "tyuue"
+        rtyu = doc.add_paragraph(f"( {NAME}")
+        rtyu.alignment = docx.enum.text.WD_ALIGN_PARAGRAPH.RIGHT
+        rtyu.style.font.bold = False
+        rtyu.style.font.name = "Arial"
+
+        rank = doc.add_paragraph(RANK)
+        rank.alignment = docx.enum.text.WD_ALIGN_PARAGRAPH.RIGHT
+        rank.style.font.bold = False
+        rank.style.font.name = "Arial"
+
+        group = doc.add_paragraph(GROUP)
+        group.alignment = docx.enum.text.WD_ALIGN_PARAGRAPH.RIGHT
+        group.style.font.bold = False
+        group.style.font.name = "Arial"
+
+        # tell = doc.add_paragraph(f"{TEL} )")
+        # tell.alignment = docx.enum.text.WD_ALIGN_PARAGRAPH.RIGHT
+        # tell.style.font.bold = False
+        # tell.style.font.name = "Arial"
+
+        lm_ref = doc.add_paragraph(LM_REFRENCE)
+        lm_ref.alignment = docx.enum.text.WD_ALIGN_PARAGRAPH.LEFT
+        lm_ref.style.font.bold = False
+        lm_ref.style.font.name = "Arial"
+
+        lm_ref.add_run(" ")
+        lm_ref.add_run(DATE)
+        lm_ref.add_run(f"\t\t\t\t\t\t\t\t\t\t {TEL} )")
         
 
 
@@ -230,6 +310,7 @@ class MainApp(QMainWindow, ui):
         rnk = self.get_LmForRank()
         grp = self.get_GrpOfLmFor()
         tel = self.get_tellOfLmFor()
+        self.LmMaker(to,lm_no,date,nam,rnk,grp,tel)
 
 
 
