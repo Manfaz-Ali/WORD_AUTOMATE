@@ -269,8 +269,8 @@ class MainApp(QMainWindow, ui):
         return l_hd
     
     def HeadingTable(self):
-        s = self.get_table_sHd
-        l = self.get_table_sHd
+        s = self.get_table_sHd()
+        l = self.get_table_lHd()
         print(s)
         print(l)
         self.table_heading(s,l)
@@ -280,13 +280,6 @@ class MainApp(QMainWindow, ui):
     def table_heading(self,s_hd,l_hd):
         doc = self.doc
         doc.add_paragraph("")
-
-        styles = doc.styles
-
-        
-        
-
-        
 
         table = doc.add_table(rows=2, cols=1)
         table.style = 'Table Grid'
