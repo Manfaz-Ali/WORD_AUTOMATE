@@ -1055,10 +1055,104 @@ QScrollBar::right-arrow:horizontal {
      <attribute name="title">
       <string>LM</string>
      </attribute>
+     <widget class="QLineEdit" name="lineEdit_To">
+      <property name="geometry">
+       <rect>
+        <x>130</x>
+        <y>50</y>
+        <width>231</width>
+        <height>41</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QLabel" name="date">
+      <property name="geometry">
+       <rect>
+        <x>400</x>
+        <y>460</y>
+        <width>51</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>12</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Date</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_13">
+      <property name="geometry">
+       <rect>
+        <x>710</x>
+        <y>320</y>
+        <width>61</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>12</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Rank</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_14">
+      <property name="geometry">
+       <rect>
+        <x>390</x>
+        <y>20</y>
+        <width>151</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>12</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string> Security Grade</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="lineEdit_Date">
+      <property name="geometry">
+       <rect>
+        <x>450</x>
+        <y>450</y>
+        <width>231</width>
+        <height>41</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="lineEdit_Security_Grades">
+      <property name="geometry">
+       <rect>
+        <x>540</x>
+        <y>10</y>
+        <width>391</width>
+        <height>61</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="lineEdit_LM_NO">
+      <property name="geometry">
+       <rect>
+        <x>170</x>
+        <y>450</y>
+        <width>201</width>
+        <height>41</height>
+       </rect>
+      </property>
+     </widget>
      <widget class="QPushButton" name="button_submit">
       <property name="geometry">
        <rect>
-        <x>1050</x>
+        <x>800</x>
         <y>670</y>
         <width>281</width>
         <height>91</height>
@@ -1068,40 +1162,60 @@ QScrollBar::right-arrow:horizontal {
        <string>Submit</string>
       </property>
      </widget>
-     <widget class="QLineEdit" name="LM_NO">
+     <widget class="QLabel" name="label_16">
       <property name="geometry">
        <rect>
-        <x>450</x>
-        <y>550</y>
-        <width>171</width>
+        <x>70</x>
+        <y>50</y>
+        <width>41</width>
         <height>31</height>
        </rect>
       </property>
-     </widget>
-     <widget class="QPlainTextEdit" name="P3">
-      <property name="enabled">
-       <bool>true</bool>
-      </property>
-      <property name="geometry">
-       <rect>
-        <x>450</x>
-        <y>370</y>
-        <width>771</width>
-        <height>111</height>
-       </rect>
-      </property>
-     </widget>
-     <widget class="QLabel" name="label_13">
-      <property name="geometry">
-       <rect>
-        <x>360</x>
-        <y>280</y>
-        <width>121</width>
-        <height>31</height>
-       </rect>
+      <property name="font">
+       <font>
+        <pointsize>12</pointsize>
+       </font>
       </property>
       <property name="text">
-       <string>  Paragraph No 1</string>
+       <string>   To</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_17">
+      <property name="geometry">
+       <rect>
+        <x>700</x>
+        <y>270</y>
+        <width>61</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>12</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string> Name</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="lineEdit_Rank">
+      <property name="geometry">
+       <rect>
+        <x>780</x>
+        <y>310</y>
+        <width>191</width>
+        <height>51</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="lineEdit_Name">
+      <property name="geometry">
+       <rect>
+        <x>780</x>
+        <y>250</y>
+        <width>191</width>
+        <height>51</height>
+       </rect>
       </property>
      </widget>
      <widget class="QPlainTextEdit" name="P1">
@@ -1110,178 +1224,129 @@ QScrollBar::right-arrow:horizontal {
       </property>
       <property name="geometry">
        <rect>
-        <x>450</x>
+        <x>170</x>
         <y>100</y>
-        <width>771</width>
+        <width>801</width>
         <height>111</height>
-       </rect>
-      </property>
-     </widget>
-     <widget class="QLabel" name="date">
-      <property name="geometry">
-       <rect>
-        <x>630</x>
-        <y>550</y>
-        <width>121</width>
-        <height>31</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Date</string>
-      </property>
-     </widget>
-     <widget class="QLineEdit" name="Date">
-      <property name="geometry">
-       <rect>
-        <x>660</x>
-        <y>550</y>
-        <width>171</width>
-        <height>31</height>
-       </rect>
-      </property>
-     </widget>
-     <widget class="QPlainTextEdit" name="P2">
-      <property name="enabled">
-       <bool>true</bool>
-      </property>
-      <property name="geometry">
-       <rect>
-        <x>450</x>
-        <y>230</y>
-        <width>771</width>
-        <height>111</height>
-       </rect>
-      </property>
-     </widget>
-     <widget class="QLabel" name="label_14">
-      <property name="geometry">
-       <rect>
-        <x>370</x>
-        <y>10</y>
-        <width>121</width>
-        <height>31</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string> Security Grades</string>
-      </property>
-     </widget>
-     <widget class="QLineEdit" name="To">
-      <property name="geometry">
-       <rect>
-        <x>380</x>
-        <y>60</y>
-        <width>151</width>
-        <height>31</height>
-       </rect>
-      </property>
-     </widget>
-     <widget class="QLabel" name="label_15">
-      <property name="geometry">
-       <rect>
-        <x>350</x>
-        <y>60</y>
-        <width>121</width>
-        <height>31</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>   To</string>
-      </property>
-     </widget>
-     <widget class="QLabel" name="label_16">
-      <property name="geometry">
-       <rect>
-        <x>360</x>
-        <y>410</y>
-        <width>121</width>
-        <height>31</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>  Paragraph No 1</string>
-      </property>
-     </widget>
-     <widget class="QLabel" name="label_17">
-      <property name="geometry">
-       <rect>
-        <x>360</x>
-        <y>140</y>
-        <width>121</width>
-        <height>31</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>  Paragraph No 1</string>
-      </property>
-     </widget>
-     <widget class="QLineEdit" name="Security_Grades">
-      <property name="geometry">
-       <rect>
-        <x>450</x>
-        <y>10</y>
-        <width>391</width>
-        <height>31</height>
-       </rect>
-      </property>
-     </widget>
-     <widget class="QLabel" name="label_18">
-      <property name="geometry">
-       <rect>
-        <x>850</x>
-        <y>550</y>
-        <width>121</width>
-        <height>31</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Rank</string>
-      </property>
-     </widget>
-     <widget class="QLineEdit" name="Name">
-      <property name="geometry">
-       <rect>
-        <x>890</x>
-        <y>510</y>
-        <width>171</width>
-        <height>31</height>
        </rect>
       </property>
      </widget>
      <widget class="QLabel" name="lm_no">
       <property name="geometry">
        <rect>
-        <x>410</x>
-        <y>550</y>
-        <width>121</width>
+        <x>100</x>
+        <y>460</y>
+        <width>61</width>
         <height>31</height>
        </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>12</pointsize>
+       </font>
       </property>
       <property name="text">
        <string>LM NO</string>
       </property>
      </widget>
-     <widget class="QLineEdit" name="Rank">
-      <property name="geometry">
-       <rect>
-        <x>890</x>
-        <y>550</y>
-        <width>171</width>
-        <height>31</height>
-       </rect>
-      </property>
-     </widget>
      <widget class="QLabel" name="label_19">
       <property name="geometry">
        <rect>
-        <x>850</x>
-        <y>510</y>
-        <width>121</width>
+        <x>0</x>
+        <y>140</y>
+        <width>161</width>
         <height>31</height>
        </rect>
       </property>
+      <property name="font">
+       <font>
+        <pointsize>12</pointsize>
+       </font>
+      </property>
       <property name="text">
-       <string> Name</string>
+       <string> Enter Paragraph </string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton">
+      <property name="geometry">
+       <rect>
+        <x>130</x>
+        <y>510</y>
+        <width>861</width>
+        <height>81</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Open Input Window</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_2">
+      <property name="geometry">
+       <rect>
+        <x>990</x>
+        <y>130</y>
+        <width>191</width>
+        <height>61</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Submit This Paragraph</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="lineEdit_Group">
+      <property name="geometry">
+       <rect>
+        <x>780</x>
+        <y>370</y>
+        <width>191</width>
+        <height>51</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_15">
+      <property name="geometry">
+       <rect>
+        <x>720</x>
+        <y>430</y>
+        <width>51</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>12</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>EXT</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="lineEdit_Tell">
+      <property name="geometry">
+       <rect>
+        <x>780</x>
+        <y>430</y>
+        <width>191</width>
+        <height>51</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_18">
+      <property name="geometry">
+       <rect>
+        <x>700</x>
+        <y>380</y>
+        <width>71</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>12</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>GROUP</string>
       </property>
      </widget>
     </widget>
@@ -1341,7 +1406,7 @@ QScrollBar::right-arrow:horizontal {
      <x>0</x>
      <y>0</y>
      <width>1447</width>
-     <height>18</height>
+     <height>23</height>
     </rect>
    </property>
   </widget>
