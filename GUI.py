@@ -168,6 +168,7 @@ class MainApp(QMainWindow, ui):
 
     def get_LmSGRD(self):
         s_grade = self.lineEdit_Security_Grades.text()
+        s_grade = s_grade.upper()
         return s_grade
 
     def get_LmForName(self):
@@ -213,26 +214,37 @@ class MainApp(QMainWindow, ui):
         tel = self.lineEdit_Tell.text()
         return tel
 
-    def LmMaker(self,To,LM_REFRENCE,DATE,NAME,RANK,GROUP,TEL):
+    def LmMaker(self,To,LM_REFRENCE,DATE,NAME,RANK,GROUP,TEL,SUB,para):
+        To = To.upper()
+        LM_REFRENCE = LM_REFRENCE.upper()
+        DATE = DATE.upper()
+        NAME = NAME.upper()
+        RANK = RANK.upper()
+        GROUP = GROUP.upper()
+        TEL = TEL.upper()
+
+
         doc = self.doc
         doc.add_paragraph("")
         doc.add_paragraph("")
         #your_para = self.user_func()
         # Add the title
-        org_name = "Avionics Production Factory"
+        org_name = "Avionics Production Factory".upper()
         title = doc.add_paragraph(org_name)
         title.alignment = docx.enum.text.WD_ALIGN_PARAGRAPH.CENTER
         title.style.font.bold = True
         title.style.font.name = "Arial"
-        title.style.font.size = docx.shared.Pt(14)
-        title.style.font.all_caps = True
+        title.style.font.size = docx.shared.Pt(12)
+        run = title.runs[0]
+        run.font.bold = True
+
         sub_title = "(DDD)"
         stitle = doc.add_paragraph(sub_title)
         stitle.alignment = docx.enum.text.WD_ALIGN_PARAGRAPH.CENTER
         stitle.style.font.bold = False
         stitle.style.font.name = "Arial"
         stitle.style.font.size = docx.shared.Pt(12)
-        stitle.style.font.all_caps = True
+        
 
         # Add two empty lines
         doc.add_paragraph("")
@@ -247,61 +259,88 @@ class MainApp(QMainWindow, ui):
         doc.add_paragraph("")
 
         # Add "This is start"
-        start = doc.add_paragraph("Subject".upper())
+        if SUB == '':
+            sub = "Subject".upper()
+        else:
+            sub = SUB.upper()
+        start = doc.add_paragraph(sub)
         start.alignment = docx.enum.text.WD_ALIGN_PARAGRAPH.CENTER
-        start.style.font.bold = True
         start.style.font.name = "Arial"
-        start.style.font.size = docx.shared.Pt(14)
+        run = start.runs[0]
+        run.font.bold = True
+        run.font.size = Pt(14)
 
-        # Add two empty lines
+         # Add two empty lines
         doc.add_paragraph("")
         doc.add_paragraph("")
 
         # Add dummy paragraph
-        dummy = doc.add_paragraph("No problem, it's easy to forget the parentheses when calling a method in Python. Just remember that without them, you are only referencing the method object itself, not the returned value. Adding the parentheses ensures that the method is called and its returned value is assigned to the variable.")
+        no = 1
+        para = f'{no}.\t'+ para
+        dummy = doc.add_paragraph(para)
         dummy.alignment = docx.enum.text.WD_ALIGN_PARAGRAPH.JUSTIFY
         start.style.font.bold = False
         start.style.font.name = "Arial"
         start.style.font.size = docx.shared.Pt(12)
+        no+=1
         # Add five empty lines
         for i in range(5):
             doc.add_paragraph("")
 
-        # Add "rtyu", "rtwr", and "tyuue"
-        rtyu = doc.add_paragraph(f"( {NAME}")
-        rtyu.alignment = docx.enum.text.WD_ALIGN_PARAGRAPH.RIGHT
-        rtyu.style.font.bold = False
-        rtyu.style.font.name = "Arial"
+        
+        name = doc.add_paragraph(f"\t\t\t\t\t( {NAME} )")
+        name.alignment = docx.enum.text.WD_ALIGN_PARAGRAPH.CENTER
+        run = name.runs[0]
+        run.font.bold = True
+        run.font.size = Pt(12)
+        name.style.font.name = "Arial"
 
-        rank = doc.add_paragraph(RANK)
-        rank.alignment = docx.enum.text.WD_ALIGN_PARAGRAPH.RIGHT
+        rank = doc.add_paragraph(f"\t\t\t\t\t {RANK}")
+        rank.alignment = docx.enum.text.WD_ALIGN_PARAGRAPH.CENTER
         rank.style.font.bold = False
         rank.style.font.name = "Arial"
 
-        group = doc.add_paragraph(GROUP)
-        group.alignment = docx.enum.text.WD_ALIGN_PARAGRAPH.RIGHT
+        group = doc.add_paragraph(f"\t\t\t\t\t {GROUP}")
+        group.alignment = docx.enum.text.WD_ALIGN_PARAGRAPH.CENTER
         group.style.font.bold = False
         group.style.font.name = "Arial"
 
-        # tell = doc.add_paragraph(f"{TEL} )")
-        # tell.alignment = docx.enum.text.WD_ALIGN_PARAGRAPH.RIGHT
-        # tell.style.font.bold = False
-        # tell.style.font.name = "Arial"
+        tell = doc.add_paragraph(f"\t\t\t\t\t {TEL} ")
+        tell.alignment = docx.enum.text.WD_ALIGN_PARAGRAPH.CENTER
+        tell.style.font.bold = False
+        tell.style.font.name = "Arial"
 
-        lm_ref = doc.add_paragraph(LM_REFRENCE)
+        doc.add_paragraph("")
+
+        lm_ref = doc.add_paragraph()
         lm_ref.alignment = docx.enum.text.WD_ALIGN_PARAGRAPH.LEFT
         lm_ref.style.font.bold = False
         lm_ref.style.font.name = "Arial"
 
+        lm_ref.add_run("LM No ")
+        lm_ref.add_run(LM_REFRENCE)
         lm_ref.add_run(" ")
+        lm_ref.add_run("dated ")
         lm_ref.add_run(DATE)
-        lm_ref.add_run(f"\t\t\t\t\t\t\t\t\t\t {TEL} )")
+
+        for paragraph in doc.paragraphs:
+            paragraph.paragraph_format.line_spacing = 1.0
+
+        for paragraph in doc.paragraphs:
+            paragraph.paragraph_format.space_after = 0
         
+        
+    def get_LmSubject(self):
+        sb = self.lineEdit_lmSubject.text()  
+        return sb
 
-
+    def inser_paragraph(self):
+        para = self.plainTextEdit_LmParagraph.toPlainText().strip()
+        return para
 
     def save_LM(self):
         sg = self.get_LmSGRD()
+        
         self.LmHdrFtr(sg)
         to = self.get_To()
         lm_no = self.get_LmRef()
@@ -310,7 +349,9 @@ class MainApp(QMainWindow, ui):
         rnk = self.get_LmForRank()
         grp = self.get_GrpOfLmFor()
         tel = self.get_tellOfLmFor()
-        self.LmMaker(to,lm_no,date,nam,rnk,grp,tel)
+        sub = self.get_LmSubject()
+        para = self.inser_paragraph()
+        self.LmMaker(to,lm_no,date,nam,rnk,grp,tel,sub,para)
 
 
 
