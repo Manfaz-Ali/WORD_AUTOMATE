@@ -1428,6 +1428,19 @@ QScrollBar::right-arrow:horizontal {
        <string>Subject</string>
       </property>
      </widget>
+     <widget class="QToolButton" name="toolButton">
+      <property name="geometry">
+       <rect>
+        <x>160</x>
+        <y>100</y>
+        <width>151</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>...</string>
+      </property>
+     </widget>
     </widget>
     <widget class="QWidget" name="tab6">
      <attribute name="title">
