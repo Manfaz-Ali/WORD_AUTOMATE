@@ -288,7 +288,7 @@ class MainApp(QMainWindow, ui):
             doc.add_paragraph("")
 
         n_length = len(NAME)
-        if n_length > = 4 and n_length <=8:
+        if n_length >= 4 and n_length <=8:
             pass
         name = doc.add_paragraph(f"\t\t\t\t\t( {NAME} )")
         name.alignment = docx.enum.text.WD_ALIGN_PARAGRAPH.CENTER
