@@ -356,19 +356,20 @@ class MainApp(QMainWindow, ui):
         self.LmMaker(to,lm_no,date,nam,rnk,grp,tel,sub,para)
 
 
-
+    def select_to(self):
+        ab = self.comboBox_to.current
 
 
 
     def set_HdrFtr(self):
         doc_name = self.get_document_name()
-        doc_sGrd = self.get_security_grade()
-        doc_refN = self.get_docRef()
-        doc_revN = self.get_docRev()
+        doc_sgrade = self.get_security_grade()
+        doc_ref_no = self.get_docRef()
+        doc_rev_no = self.get_docRev()
         doc_date = self.get_docDate()
 
-        self.set_header(doc_name,doc_sGrd)
-        self.set_footer(doc_sGrd,doc_refN,doc_revN,doc_date)
+        self.set_header(doc_name,doc_sgrade)
+        self.set_footer(doc_sgrade,doc_ref_no,doc_rev_no,doc_date)
 
 
     def set_pageMargin(self):
